@@ -6,7 +6,7 @@ interface ButtonProps {
   buttonStyles: string;
   text: string;
   textStyles: string;
-  link: Href;
+  link?: Href;
 }
 
 export default function NavigationButton({
@@ -16,10 +16,16 @@ export default function NavigationButton({
   link,
 }: ButtonProps) {
   return (
-    <Link href={link} asChild>
+    link ? (
+      <Link href={link} asChild>
       <Pressable className={buttonStyles}>
         <Text className={textStyles}>{text}</Text>
       </Pressable>
     </Link>
+    )
+    :
+    <Pressable className={buttonStyles}>
+        <Text className={textStyles}>{text}</Text>
+    </Pressable>
   );
 }

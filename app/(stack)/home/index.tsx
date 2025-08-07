@@ -1,9 +1,8 @@
 /* eslint-disable react-hooks/rules-of-hooks */
-import NavigationButton from "@/components/Button";
 import { router, useNavigation } from "expo-router";
 import React, { useEffect } from "react";
-import { Image, Text, View } from "react-native";
-import marvelLogo from "../../assets/marvelContent/Marvel_Logo.png";
+import { Image, Pressable, Text, View } from "react-native";
+import marvelLogo from "../../../assets/marvelContent/Marvel_Logo.png";
 
 export default function index() {
 
@@ -14,10 +13,6 @@ export default function index() {
       headerShown: false,
     });
   }, [setOptions]);
-
-  const onPress = () => {
-    router.push("/(stack)/login");
-  }
 
   return (
     <View className="bg-marvelousRed h-full flex justify-center items-center gap-10">
@@ -31,11 +26,11 @@ export default function index() {
         </Text>
       </View>
       <View>
-        <NavigationButton 
-            buttonStyles="z-10 bg-marvelousBlue py-3 px-6 rounded-xl active:bg-marvelousBlue-800/50 border-2 border-marvelousWhite" 
-            textStyles="font-BebasNeue text-3xl text-marvelousWhite w-full"
-            text="Login"
-            link={{pathname: "/login"}} />
+        <Pressable 
+          onPress={()=> router.push("/home/login")}
+          className="z-10 bg-marvelousBlue py-3 px-6 rounded-xl active:bg-marvelousBlue-800/50 border-2 border-marvelousWhite">
+          <Text className="font-BebasNeue text-3xl text-marvelousWhite w-full">Login</Text>
+          </Pressable> 
       </View>
     </View>
   );

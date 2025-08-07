@@ -1,6 +1,6 @@
 import AuthContextProvider from "@/Context/AuthContext";
 import { useFonts } from "expo-font";
-import { Stack } from "expo-router";
+import { Slot } from "expo-router";
 import { StatusBar } from "expo-status-bar";
 import "react-native-reanimated";
 import { SafeAreaView } from "react-native-safe-area-context";
@@ -19,13 +19,7 @@ export default function RootLayout() {
   return (
     <AuthContextProvider>
       <SafeAreaView className="bg-marvelousRed h-full">
-        <Stack
-          screenOptions={{
-            headerShown: false
-          }}
-        >
-          <Stack.Screen name="(stack)" />
-        </Stack>
+        <Slot />
       </SafeAreaView>
       <StatusBar style="auto" />
     </AuthContextProvider>

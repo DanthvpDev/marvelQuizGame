@@ -5,18 +5,10 @@ export default function StackLayout() {
   return (
     <Stack
       screenOptions={{
-        headerShown: true,
-        title: "",
-        headerTintColor: "#EAEAEA",
-        headerStyle: {
-          backgroundColor: "#0577FA"
-        }
+        headerShown: false,
       }}
     >
-
-      <Stack.Screen name="index" />
-      <Stack.Screen name="/login"/>
-      <Stack.Screen name="/homepage"/>
+      <Stack.Screen name="home/" />
     </Stack>
   );
 }

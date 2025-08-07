@@ -1,7 +1,8 @@
 import { UsersLoginInfo } from "@/data/User";
 import { IAuthContext, States } from "@/interfaces/IAuthContext.interface";
 import { IUser, IUserLoginInfo } from "@/types/User.type";
-import { createContext, PropsWithChildren, useContext, useState } from "react";
+import { router } from "expo-router";
+import { createContext, PropsWithChildren, useContext, useEffect, useState } from "react";
 
 //* Context created
 const AuthContext = createContext<IAuthContext>({} as IAuthContext);
@@ -48,6 +49,10 @@ export default function AuthContextProvider({ children }: PropsWithChildren) {
     setUser(undefined);
     setAuthState(States.notAuthorized);
   };
+
+  useEffect(() => {
+    if(!authState) router.navigate("/(stack)/home");
+  }, [authState])
 
   return (
     <AuthContext.Provider
