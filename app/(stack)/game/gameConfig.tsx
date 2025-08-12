@@ -1,10 +1,10 @@
 import React from 'react'
 import { Text, View } from 'react-native'
 
-export default function GameHome() {
+export default function GameConfig() {
   return (
     <View>
-      <Text>Marvel Codex Trivia</Text>
+      <Text>G</Text>
     </View>
   )
 }

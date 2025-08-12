@@ -20,7 +20,7 @@ export default function LoginForm() {
   const onSubmit = async(data:UserAuth)=> {
       const res = await login(data.email, data.password);
       if(res) {
-        router.push("/(stack)/(tabs)/home/homePage");
+        router.replace("/game");
         reset();
       };
   }

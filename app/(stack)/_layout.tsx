@@ -5,10 +5,12 @@ export default function StackLayout() {
   return (
     <Stack
       screenOptions={{
-        headerShown: false,
+        headerShown:false
       }}
     >
-      <Stack.Screen name="home/" />
+        <Stack.Screen name='(home)/index'/>
+        <Stack.Screen name='(home)/login'/>
+        <Stack.Screen name='game'/>
     </Stack>
   );
 }

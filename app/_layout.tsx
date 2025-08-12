@@ -1,6 +1,7 @@
 import AuthContextProvider from "@/Context/AuthContext";
+import MarvelApiProvider from "@/Context/marvelApiContext";
 import { useFonts } from "expo-font";
-import { Slot } from "expo-router";
+import { Stack } from "expo-router";
 import { StatusBar } from "expo-status-bar";
 import "react-native-reanimated";
 import { SafeAreaView } from "react-native-safe-area-context";
@@ -18,10 +19,14 @@ export default function RootLayout() {
 
   return (
     <AuthContextProvider>
-      <SafeAreaView className="bg-marvelousRed h-full">
-        <Slot />
-      </SafeAreaView>
-      <StatusBar style="auto" />
+      <MarvelApiProvider>
+        <SafeAreaView className="bg-marvelousRed h-full">
+          <Stack>
+            <Stack.Screen name="(stack)" options={{ headerShown: false }} />
+          </Stack>
+        </SafeAreaView>
+        <StatusBar style="auto" />
+      </MarvelApiProvider>
     </AuthContextProvider>
   );
 }
