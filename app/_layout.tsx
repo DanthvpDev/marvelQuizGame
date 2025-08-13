@@ -1,5 +1,4 @@
 import AuthContextProvider from "@/Context/AuthContext";
-import MarvelApiProvider from "@/Context/marvelApiContext";
 import { useFonts } from "expo-font";
 import { Stack } from "expo-router";
 import { StatusBar } from "expo-status-bar";
@@ -10,6 +9,8 @@ import "../global.css";
 export default function RootLayout() {
   const [loaded] = useFonts({
     BebasNeue: require("../assets/fonts/BebasNeue-Regular.ttf"),
+    Nunito: require("../assets/fonts/Nunito-Regular.ttf"),
+    PokeSolid: require("../assets/fonts/Pokemon Solid.ttf")
   });
 
   if (!loaded) {
@@ -19,14 +20,12 @@ export default function RootLayout() {
 
   return (
     <AuthContextProvider>
-      <MarvelApiProvider>
-        <SafeAreaView className="bg-marvelousRed h-full">
+        <SafeAreaView className="bg-pokeWhite dark:bg-pokeBlue h-full">
           <Stack>
             <Stack.Screen name="(stack)" options={{ headerShown: false }} />
           </Stack>
         </SafeAreaView>
         <StatusBar style="auto" />
-      </MarvelApiProvider>
     </AuthContextProvider>
   );
 }

@@ -7,23 +7,23 @@ export default function GameHome() {
 
 
   return (
-    <View className="bg-marvelousRed h-full flex justify-center items-center gap-10">
+    <View className="dark:bg-pokeBlue bg-pokeWhite h-full flex justify-center items-center gap-10">
       <View className="flex gap-3 px-6">
-        <Header  mainText="Marvel Codex Trivia" subText="Challenge your powers" />
+        <Header  mainText="PokeTrivia" subText="Challenge your knowledge" />
         <View className="flex flex-row justify-around items-center mt-14">
           <Pressable
           onPress={()=> router.push("/game/characters")}
-          className="w-36 z-10 bg-marvelousBlue-300 py-4 rounded-xl active:bg-marvelousBlue-800/50 border-2 border-marvelousWhite"
+          className="z-10 bg-pokeBlue dark:bg-pokeYellow-700 py-4 rounded-xl active:bg-pokeBlue-800/50 border-2 border-pokeWhite w-44"
         >
-          <Text className="text-center font-BebasNeue text-3xl text-marvelousWhite w-full">
-            Characters
+          <Text className="font-PokeSolid text-3xl text-pokeWhite text-center shadow-sm shadow-pokeBlue-800">
+            Pokemons
           </Text>
         </Pressable>
           <Pressable
           onPress={()=> router.push("/game/gameConfig")}
-          className="w-36 z-10 bg-marvelousBlue-300 py-4 rounded-xl active:bg-marvelousBlue-800/50 border-2 border-marvelousWhite"
+          className="z-10 bg-pokeBlue dark:bg-pokeYellow-700 py-4 rounded-xl active:bg-pokeBlue-800/50 border-2 border-pokeWhite w-44"
         >
-          <Text className="text-center font-BebasNeue text-3xl text-marvelousWhite w-full">
+          <Text className="font-PokeSolid text-3xl text-pokeWhite text-center shadow-sm shadow-pokeBlue-800">
             Play
           </Text>
         </Pressable>

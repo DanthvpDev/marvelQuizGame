@@ -6,24 +6,31 @@ module.exports = {
   theme: {
     extend: {
       colors: {
-        marvelousRed: {
-          DEFAULT: "#A13838",
+        pokeRed: {
+          DEFAULT: "#CC0000",
           300: "#CA3B3B"
         },
-        marvelousBlue: {
-          DEFAULT: "#0577FA",
+        pokeBlue: {
+          DEFAULT: "#3C5AA6",
           300: "#3581D8",
           800: "#00568C"
         },
-        marvelousWhite: {
+        pokeWhite: {
           DEFAULT: "#EAEAEA"
         },
-        marvelousBlack: {
+        pokeBlack: {
           DEFAULT: "#191A1A"
+        },
+        pokeYellow: {
+          DEFAULT:"#FFCB05",
+          700: "#E5BA13",
+          800: "#D1A90E"
         }
       },
       fontFamily: {
-        BebasNeue: ["BebasNeue"]
+        BebasNeue: ["BebasNeue"],
+        PokeSolid: ["PokeSolid"],
+        Nunito: ["Nunito"]
       }
     },
   },

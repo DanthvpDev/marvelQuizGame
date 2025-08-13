@@ -15,13 +15,13 @@ export default function index() {
   }, [setOptions]);
 
   return (
-    <View className="bg-marvelousRed h-full flex justify-center items-center gap-10">
-      <Header mainText="Marvel Codex Trivia" subText="Welcome back hero" />
+    <View className="dark:bg-pokeBlue bg-pokeWhite h-full flex justify-center items-center gap-10">
+      <Header mainText="PokeTrivia" subText="Welcome back poke-friend" />
       <View>
         <Pressable 
           onPress={()=> router.push("/login")}
-          className="z-10 bg-marvelousBlue py-3 px-6 rounded-xl active:bg-marvelousBlue-800/50 border-2 border-marvelousWhite">
-          <Text className="font-BebasNeue text-3xl text-marvelousWhite w-full">Login</Text>
+          className="z-10 bg-pokeBlue dark:bg-pokeYellow-800 py-3 px-6 rounded-xl active:bg-pokeBlue-800/50 border-2 border-pokeWhite">
+          <Text className="font-PokeSolid text-3xl text-pokeWhite w-full">Login</Text>
           </Pressable> 
       </View>
     </View>

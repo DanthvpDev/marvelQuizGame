@@ -1,25 +1,18 @@
 import Header from '@/components/Header';
-import { useMarvelApiContextProvider } from '@/Context/marvelApiContext';
 import React from 'react';
-import { ScrollView, Text, View } from 'react-native';
+import { ScrollView, View } from 'react-native';
 
 export default function Charachters() {
 
-    const {characters, marvelApiError} = useMarvelApiContextProvider();
 
   return (
-    <ScrollView className='py-10 bg-marvelousBlue-300'>
+    <ScrollView className='py-10 bg-pokeWhite'>
       <Header 
-        mainText='Characters' 
-        subText='Find all the info about your favorite heroes, villains, and anti-heroes'
-        mainTextStyle='text-6xl text-marvelousWhite font-BebasNeue text-marvelousWhite text-center shadow-sm shadow-marvelousRed' 
-        subTextStyle='text-3xl font-BebasNeue text-marvelousWhite text-center shadow-sm shadow-marvelousRed' />
+        mainText='Pokemons' 
+        subText='Find all the info about your favorite pokemons'
+        mainTextStyle='text-5xl text-pokeYellow pt-3 font-PokeSolid text-marvelousWhite text-center shadow-sm shadow-pokeBlue-800' 
+        subTextStyle='text-3xl font-Nunito text-pokeBlue-800 text-center shadow-sm shadow-pokeBlack' />
         <View>
-            {
-                marvelApiError 
-                    ? (<Text>{marvelApiError}</Text>)
-                    : (<Text>{characters.at(1)?.name}</Text>)
-            }
         </View>
     </ScrollView>
   )

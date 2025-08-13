@@ -1,6 +1,6 @@
 import React from "react";
 import { Image, Text, View } from "react-native";
-import marvelLogo from "../assets/marvelContent/Marvel_Logo.png";
+import pokeLogo from "../assets/pokemonContent/pokemonLogo.png";
 
 interface Props {
     mainText: string;
@@ -12,17 +12,17 @@ interface Props {
 export default function Header({mainText, subText, mainTextStyle, subTextStyle}:Props) {
   return (
     <View className="flex items-center gap-10">
-      <Image source={marvelLogo} style={{ width: 280, height: 115 }} />
+      <Image source={pokeLogo} style={{ width: 280, height: 115 }} />
       <View className="flex gap-3 px-6">
         <Text className={mainTextStyle ? 
               mainTextStyle
-              :  "text-6xl font-BebasNeue text-marvelousWhite text-center shadow-sm shadow-marvelousWhite"
+              :  "dark:text-pokeYellow text-pokeYellow text-6xl font-Nunito text-marvelousWhite text-center shadow-sm shadow-pokeBlue py-5"
         }>
           {mainText}
         </Text>
         <Text className={subTextStyle ?
           subTextStyle
-          : "text-4xl font-BebasNeue text-marvelousWhite text-center shadow-sm shadow-marvelousWhite"}>
+          : "dark:text-pokeWhite text-pokeBlue text-3xl font-bold font-Nunito text-marvelousWhite text-center shadow-sm shadow-marvelousWhite"}>
           {subText}
         </Text>
       </View>
