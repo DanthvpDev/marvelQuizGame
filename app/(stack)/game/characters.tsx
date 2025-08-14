@@ -1,19 +1,26 @@
 import Header from '@/components/Header';
+import PokeCard from '@/components/PokeCard';
+import { usePokeApiContext } from '@/Context/pokeApiContext';
 import React from 'react';
-import { ScrollView, View } from 'react-native';
+import { ActivityIndicator, ScrollView, Text, View } from 'react-native';
 
 export default function Charachters() {
 
+  const {apiError, isLoading, pokemons} = usePokeApiContext();
 
   return (
-    <ScrollView className='py-10 bg-pokeWhite'>
+    <View className='py-10 bg-pokeWhite'>
       <Header 
         mainText='Pokemons' 
-        subText='Find all the info about your favorite pokemons'
-        mainTextStyle='text-5xl text-pokeYellow pt-3 font-PokeSolid text-marvelousWhite text-center shadow-sm shadow-pokeBlue-800' 
-        subTextStyle='text-3xl font-Nunito text-pokeBlue-800 text-center shadow-sm shadow-pokeBlack' />
-        <View>
-        </View>
-    </ScrollView>
+        subText='Find all the info about your favorite pokemons'/>
+        <ScrollView>
+            {(apiError && !isLoading) && (<Text className='bg-pokeRed text-pokeWhite text-center text-xl py-5 px-3'>{apiError}</Text>)}
+            {(!apiError && isLoading) && (<ActivityIndicator size={20}/>)}
+            {(pokemons.length === 0) && (<Text className='text-pokeYellow text-center text-xl py-5 px-3'>This is actually empty {pokemons.length}</Text>)}
+            {(pokemons.length > 0) && (
+              pokemons.map((p) => (<PokeCard pokemon={p} key={p.id}/>))
+            )}
+        </ScrollView>
+    </View>
   )
 }

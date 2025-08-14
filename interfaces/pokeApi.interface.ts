@@ -14,7 +14,7 @@ export interface Pokemon {
     id:number;
     name:string;
     image: Sprites;
-    abilites: Ability[];
+    abilities: Ability[];
 }
 
 export interface PokemonResult {

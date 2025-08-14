@@ -5,24 +5,18 @@ import pokeLogo from "../assets/pokemonContent/pokemonLogo.png";
 interface Props {
     mainText: string;
     subText: string;
-    mainTextStyle?: string;
-    subTextStyle?: string;
+    showLogo?:boolean
 }
 
-export default function Header({mainText, subText, mainTextStyle, subTextStyle}:Props) {
+export default function Header({mainText, subText, showLogo=false}:Props) {
   return (
-    <View className="flex items-center gap-10">
-      <Image source={pokeLogo} style={{ width: 280, height: 115 }} />
+    <View className="flex items-center gap-10 dark:bg-pokeBlue">
+      {showLogo && (<Image source={pokeLogo} style={{ width: 200, height: 100 }} />)}
       <View className="flex gap-3 px-6">
-        <Text className={mainTextStyle ? 
-              mainTextStyle
-              :  "dark:text-pokeYellow text-pokeYellow text-6xl font-Nunito text-marvelousWhite text-center shadow-sm shadow-pokeBlue py-5"
-        }>
+        <Text className="text-pokeYellow text-6xl font-PokeSolid text-center py-5">
           {mainText}
         </Text>
-        <Text className={subTextStyle ?
-          subTextStyle
-          : "dark:text-pokeWhite text-pokeBlue text-3xl font-bold font-Nunito text-marvelousWhite text-center shadow-sm shadow-marvelousWhite"}>
+        <Text className= "dark:text-pokeWhite text-pokeBlue text-3xl font-bold font-Nunito text-center shadow-md shadow-pokeBlue">
           {subText}
         </Text>
       </View>
