@@ -1,19 +1,46 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
 import ApiRequestHook from "@/interfaces/ApiRequestHook.interface";
 import { APIResponse, Pokemon, PokemonResult, Result } from "@/interfaces/pokeApi.interface";
+import { pokemonDTOMapper } from "@/mappers/apiMappers";
+import { useQuery } from "@tanstack/react-query";
 import axios from "axios";
 
 export default function useApiRequest(): ApiRequestHook {
 
-  function pokemonDTOMapper(pokemonResult: PokemonResult):Pokemon {
-    const {id, name, sprites, abilities} = pokemonResult;
-    return {
-      id,
-      name,
-      image: sprites,
-      abilities
-    }
-  }
+  const {data:apiData, error:apiDataError, isLoading:apiDataIsLoading, status:apiDataStatus} = useQuery({
+    queryKey: ["apiData"],
+    queryFn: gettingAllResults
+  }) 
 
+  //* This function gets all the info of pokemons of each ApiResponse result
+  async function gettinPokemonsPerPage(results: Result[]):Promise<Pokemon[]> {
+    try {
+      let pokemonsPromises =  results.map(async res => {
+        return await getPokemon(res.url);
+      });
+
+      const pokemonsArray = await Promise.all(pokemonsPromises);
+     
+      return pokemonsArray.filter(Boolean) as Pokemon[];
+    } catch (error) {
+      return [];
+    }
+  } 
+
+  //* Gets all the Api Responses using the recursive function
+  //? This function is needed for tanstack query
+  async function gettingAllResults() {
+    try {
+      //* Calls the function that executes axios request
+      return getAllPokemonsRecursive(process.env.EXPO_PUBLIC_POKEAPI_URL);
+    } catch (error) {
+      return [];
+    }
+  } 
+
+  
+
+  //* Gets pokemons from the URL given by the API Response
   async function getPokemon(endpoint:string):Promise<Pokemon|null> {
     try {
       const {data} = await axios.get<PokemonResult>(`${endpoint}`);
@@ -24,6 +51,7 @@ export default function useApiRequest(): ApiRequestHook {
     }
   }
 
+  //* Returns all the API Responses with the response info and the Result array
   async function getApiPokemonResponse(endpoint: string): Promise<APIResponse | null> {
     try {
       const { data } = await axios.get<APIResponse>(`${endpoint}`);
@@ -34,16 +62,14 @@ export default function useApiRequest(): ApiRequestHook {
     }
   }
 
-  //* Recursive function to get all pokemons
-  async function getAllPokemonsRecursive(data: APIResponse,prevArrayData: Result[]): Promise<Result[]|undefined> {
-    let response = [...prevArrayData];
+  //* Gets all the Api Responses
+  async function getAllPokemonsRecursive(url: string, prevArrayData?: APIResponse[]): Promise<APIResponse[]|undefined> {
+    let response = prevArrayData ? [...prevArrayData] : [];
     try {
-      if (data.next) {
-        let dataNewRequest = await getApiPokemonResponse(data.next);
-        if (dataNewRequest) {
-          response = response.concat(dataNewRequest.results);
-          return await getAllPokemonsRecursive(dataNewRequest, response)
-        }
+      const apiCall = await  getApiPokemonResponse(url);
+      if (apiCall && apiCall.next) {
+        response.push(apiCall);
+        return await getAllPokemonsRecursive(apiCall.next, response)
       }
       return response;
     } catch (error) {
@@ -54,7 +80,12 @@ export default function useApiRequest(): ApiRequestHook {
 
   return {
     getApiResponse: getApiPokemonResponse,
-    getAllPokemonsRecursive,
-    getPokemon
+    getPokemon,
+    gettinPokemonsPerPage,
+    gettingAllResults,
+    apiData,
+    apiDataError,
+    apiDataIsLoading,
+    apiDataStatus
   };
 }

@@ -16,7 +16,8 @@ module.exports = {
           800: "#00568C"
         },
         pokeWhite: {
-          DEFAULT: "#EAEAEA"
+          DEFAULT: "#EAEAEA",
+          500: "#EED"
         },
         pokeBlack: {
           DEFAULT: "#191A1A"

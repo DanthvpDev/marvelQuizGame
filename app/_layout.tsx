@@ -1,5 +1,5 @@
 import AuthContextProvider from "@/Context/AuthContext";
-import PokemonApiProvider from "@/Context/pokeApiContext";
+import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { useFonts } from "expo-font";
 import { Stack } from "expo-router";
 import { StatusBar } from "expo-status-bar";
@@ -18,17 +18,19 @@ export default function RootLayout() {
     // Async font loading only occurs in development.
     return null;
   }
+  
+  const queryClient = new QueryClient();
 
   return (
     <AuthContextProvider>
-      <PokemonApiProvider>
-        <SafeAreaView className="bg-pokeWhite dark:bg-pokeBlue h-full">
-          <Stack>
-            <Stack.Screen name="(stack)" options={{ headerShown: false }} />
-          </Stack>
-        </SafeAreaView>
-        <StatusBar style="auto" />
-      </PokemonApiProvider>
+      <QueryClientProvider client={queryClient}>
+          <SafeAreaView className="bg-pokeWhite dark:bg-pokeBlue h-full">
+            <Stack>
+              <Stack.Screen name="(stack)" options={{ headerShown: false }} />
+            </Stack>
+          </SafeAreaView>
+          <StatusBar style="auto" />
+      </QueryClientProvider>
     </AuthContextProvider>
   );
 }

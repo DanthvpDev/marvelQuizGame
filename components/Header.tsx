@@ -10,13 +10,13 @@ interface Props {
 
 export default function Header({mainText, subText, showLogo=false}:Props) {
   return (
-    <View className="flex items-center gap-10 dark:bg-pokeBlue">
+    <View className="flex items-center gap-10 dark:bg-pokeBlue py-3">
       {showLogo && (<Image source={pokeLogo} style={{ width: 200, height: 100 }} />)}
       <View className="flex gap-3 px-6">
-        <Text className="text-pokeYellow text-6xl font-PokeSolid text-center py-5">
+        <Text className="text-pokeYellow text-5xl font-PokeSolid text-center pt-5">
           {mainText}
         </Text>
-        <Text className= "dark:text-pokeWhite text-pokeBlue text-3xl font-bold font-Nunito text-center shadow-md shadow-pokeBlue">
+        <Text className= "dark:text-pokeWhite text-pokeBlue text-2xl font-bold font-Nunito text-center shadow-md shadow-pokeBlue">
           {subText}
         </Text>
       </View>
