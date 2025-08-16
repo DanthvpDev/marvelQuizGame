@@ -23,7 +23,7 @@ export default function GameHome() {
           onPress={()=> router.push("/game/gameConfig")}
           className="z-10 bg-pokeBlue dark:bg-pokeYellow-700 py-4 rounded-xl active:bg-pokeBlue-800/50 border-4 border-pokeBlue-800 dark:border-pokeWhite w-44"
         >
-          <Text className="font-PokeSolid text-3xl text-pokeWhite-500 text-center shadow-sm shadow-pokeBlue-800 ">
+          <Text className="font-PokeSolid text-3xl text-pokeWhite-500 text-center shadow-sm shadow-pokeBlue-800">
             Play
           </Text>
         </Pressable>

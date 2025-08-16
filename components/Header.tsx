@@ -12,7 +12,7 @@ export default function Header({mainText, subText, showLogo=false}:Props) {
   return (
     <View className="flex items-center gap-10 dark:bg-pokeBlue py-3">
       {showLogo && (<Image source={pokeLogo} style={{ width: 200, height: 100 }} />)}
-      <View className="flex gap-3 px-6">
+      <View className="flex gap-3 px-3">
         <Text className="text-pokeYellow text-5xl font-PokeSolid text-center pt-5">
           {mainText}
         </Text>

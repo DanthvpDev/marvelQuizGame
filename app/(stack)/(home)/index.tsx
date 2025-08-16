@@ -8,15 +8,18 @@ import React, { useEffect } from "react";
 import { Pressable, Text, View } from "react-native";
 
 export default function index() {
+  const { gettingAllResults } = useApiRequest();
 
-  const {gettingAllResults} = useApiRequest(); 
-  
-  const {error:apiDataError, status:apiDataStatus, isFetched} = useQuery({
+  const {
+    error: apiDataError,
+    status: apiDataStatus,
+    isFetched,
+  } = useQuery({
     queryKey: ["apiData"],
-    queryFn: gettingAllResults
-  })
+    queryFn: gettingAllResults,
+  });
 
-    //? Navigation
+  //? Navigation
   const { setOptions } = useNavigation();
   useEffect(() => {
     setOptions({
@@ -24,21 +27,22 @@ export default function index() {
     });
   }, [setOptions]);
 
-  if(apiDataStatus === "pending") {
-    return (
-      <Loader />
-    )
+  if (apiDataStatus === "pending") {
+    return <Loader />;
   }
 
   return (
     <View className="dark:bg-pokeBlue bg-pokeWhite h-full flex justify-center items-center gap-10">
       <Header mainText="PokeTrivia" subText="Welcome back poke-friend" />
       <View>
-        <Pressable 
-          onPress={()=> router.push("/login")}
-          className="z-10 bg-pokeBlue dark:bg-pokeYellow-800 py-3 px-6 rounded-xl active:bg-pokeBlue-800/50 border-2 border-pokeWhite">
-          <Text className="font-PokeSolid text-3xl text-pokeWhite w-full">Login</Text>
-          </Pressable> 
+        <Pressable
+          onPress={() => router.push("/login")}
+          className="z-10 bg-pokeBlue dark:bg-pokeYellow-700 py-4 rounded-xl active:bg-pokeBlue-800/50 border-4 border-pokeBlue-800 dark:border-pokeWhite w-44"
+        >
+          <Text className="font-PokeSolid text-3xl text-pokeWhite-500 text-center shadow-sm shadow-pokeBlue-800l">
+            Login
+          </Text>
+        </Pressable>
       </View>
     </View>
   );
