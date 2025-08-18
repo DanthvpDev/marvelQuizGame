@@ -2,7 +2,6 @@ import Header from "@/components/Header";
 import Loader from "@/components/Loader";
 import PokeCard from "@/components/PokeCard";
 import useApiRequest from "@/hooks/useApiRequest";
-import { useQuery } from "@tanstack/react-query";
 import React, { useState } from "react";
 import {
   Pressable,
@@ -12,24 +11,11 @@ import {
 } from "react-native";
 
 export default function Charachters() {
-  const { apiData, apiDataError, gettinPokemonsPerPage } =
-    useApiRequest();
-
   const [page, setPage] = useState(1);
+  const { pokemonsError, pokemonsGotten, pokemons, isLoadingPokemons } =
+    useApiRequest(page);
 
-  const {
-    data: pokemons,
-    isLoading: isLoadingPokemons,
-    error: pokemonsError,
-    isFetched: pokemonsGotten,
-  } = useQuery({
-    queryKey: ["pokemons", page],
-    queryFn: () => {
-      const url = apiData?.at(page-1)?.results;
-      return url ? gettinPokemonsPerPage(url) : [];
-    },
-    enabled: !!apiData,
-  });
+
   
   const handlePress = (prev:number, next:boolean) => {
     return next ?  prev+=1 : prev-=1; 

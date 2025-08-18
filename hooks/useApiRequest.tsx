@@ -1,31 +1,56 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
 import ApiRequestHook from "@/interfaces/ApiRequestHook.interface";
-import { APIResponse, Pokemon, PokemonResult, Result } from "@/interfaces/pokeApi.interface";
+import {
+  APIResponse,
+  Pokemon,
+  PokemonResult,
+  Result,
+} from "@/interfaces/pokeApi.interface";
 import { pokemonDTOMapper } from "@/mappers/apiMappers";
 import { useQuery } from "@tanstack/react-query";
 import axios from "axios";
 
-export default function useApiRequest(): ApiRequestHook {
-
-  const {data:apiData, error:apiDataError, isLoading:apiDataIsLoading, status:apiDataStatus} = useQuery({
+export default function useApiRequest(page: number): ApiRequestHook {
+  // Contexto de todas las llamadas principales
+  const {
+    data: apiData,
+    error: apiDataError,
+    isLoading: apiDataIsLoading,
+    status: apiDataStatus,
+  } = useQuery({
     queryKey: ["apiData"],
-    queryFn: gettingAllResults
-  }) 
+    queryFn: gettingAllResults,
+  });
+
+  //Contexto de los pokemones
+  const {
+    data: pokemons,
+    isLoading: isLoadingPokemons,
+    error: pokemonsError,
+    isFetched: pokemonsGotten,
+  } = useQuery({
+    queryKey: ["pokemons", page],
+    queryFn: () => {
+      const url = apiData?.at(page - 1)?.results;
+      return url ? gettinPokemonsPerPage(url) : [];
+    },
+    enabled: !!apiData,
+  });
 
   //* This function gets all the info of pokemons of each ApiResponse result
-  async function gettinPokemonsPerPage(results: Result[]):Promise<Pokemon[]> {
+  async function gettinPokemonsPerPage(results: Result[]): Promise<Pokemon[]> {
     try {
-      let pokemonsPromises =  results.map(async res => {
+      let pokemonsPromises = results.map(async (res) => {
         return await getPokemon(res.url);
       });
 
       const pokemonsArray = await Promise.all(pokemonsPromises);
-     
+
       return pokemonsArray.filter(Boolean) as Pokemon[];
     } catch (error) {
       return [];
     }
-  } 
+  }
 
   //* Gets all the Api Responses using the recursive function
   //? This function is needed for tanstack query
@@ -36,14 +61,12 @@ export default function useApiRequest(): ApiRequestHook {
     } catch (error) {
       return [];
     }
-  } 
-
-  
+  }
 
   //* Gets pokemons from the URL given by the API Response
-  async function getPokemon(endpoint:string):Promise<Pokemon|null> {
+  async function getPokemon(endpoint: string): Promise<Pokemon | null> {
     try {
-      const {data} = await axios.get<PokemonResult>(`${endpoint}`);
+      const { data } = await axios.get<PokemonResult>(`${endpoint}`);
       return pokemonDTOMapper(data);
     } catch (error) {
       console.log(error);
@@ -52,7 +75,9 @@ export default function useApiRequest(): ApiRequestHook {
   }
 
   //* Returns all the API Responses with the response info and the Result array
-  async function getApiPokemonResponse(endpoint: string): Promise<APIResponse | null> {
+  async function getApiPokemonResponse(
+    endpoint: string
+  ): Promise<APIResponse | null> {
     try {
       const { data } = await axios.get<APIResponse>(`${endpoint}`);
       if (data.results.length === 0 || !data) return null;
@@ -63,13 +88,16 @@ export default function useApiRequest(): ApiRequestHook {
   }
 
   //* Gets all the Api Responses
-  async function getAllPokemonsRecursive(url: string, prevArrayData?: APIResponse[]): Promise<APIResponse[]|undefined> {
+  async function getAllPokemonsRecursive(
+    url: string,
+    prevArrayData?: APIResponse[]
+  ): Promise<APIResponse[] | undefined> {
     let response = prevArrayData ? [...prevArrayData] : [];
     try {
-      const apiCall = await  getApiPokemonResponse(url);
+      const apiCall = await getApiPokemonResponse(url);
       if (apiCall && apiCall.next) {
         response.push(apiCall);
-        return await getAllPokemonsRecursive(apiCall.next, response)
+        return await getAllPokemonsRecursive(apiCall.next, response);
       }
       return response;
     } catch (error) {
@@ -86,6 +114,10 @@ export default function useApiRequest(): ApiRequestHook {
     apiData,
     apiDataError,
     apiDataIsLoading,
-    apiDataStatus
+    apiDataStatus,
+    pokemons,
+    isLoadingPokemons,
+    pokemonsError,
+    pokemonsGotten
   };
 }

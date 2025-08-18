@@ -15,6 +15,7 @@ export default function GameLayout() {
         <Stack.Screen name='index' options={{headerShown:false, title:"Home"}}/>
         <Stack.Screen name='gameConfig' options={{title:""}}/>
         <Stack.Screen name='characters' options={{title:""}}/>
+        <Stack.Screen name='[level]' options={{headerShown:false, title:"Home"}}/>
     </Stack>
   )
 }
