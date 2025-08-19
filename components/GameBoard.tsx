@@ -23,7 +23,7 @@ export default function GameBoard({
   const [inputValue, setInputValue] = useState<string>("");
   const [inputValueError, setInputValueError] = useState<string|null>(null);
   const [error, setError] = useState<string | null>(null);
-  const { pokemonsForGame, startGame, answer, isAnswerCorrect } = useGame();
+  const { pokemonsForGame, startGame, answer, isAnswerCorrect, pokemons } = useGame();
   //? Gets the user
   const { user } = useAuthContext();
 
@@ -38,7 +38,7 @@ export default function GameBoard({
 
   useEffect(() => {
     handleRestart();
-  }, []);
+  }, [pokemons]);
 
   useEffect(() => {
 
@@ -52,19 +52,18 @@ export default function GameBoard({
 
       //* Verifies if the correct answer and the option selected are the same
       if ((answer && optionSelected) && isAnswerCorrect(answer, optionSelected)) {
-        onPress((p) => p + 1);
+        onPress((p) => p += 1);
         startGame();
       } else onPress(0);
-      setOptionSelected(undefined);
     }
-
+    
     handleAnswer();
   }, [optionSelected]);
 
   if(error) 
     return (
       <View>
-        <View className="h-96">
+        <View className="h-64">
           <Image
             source={CharizardError}
             className="h-full aspect-square rounded-xl self-center shadow-xl shadow-pokeRed"
@@ -83,8 +82,8 @@ export default function GameBoard({
     )
 
   return (
-    <View>
-      <View className="mb-10 flex flex-row justify-between">
+    <>
+      <View className="mb-5 flex flex-row justify-between">
         <Pressable
           onPress={() => router.push("/game/")}
           className="z-10 bg-pokeBlue dark:bg-pokeWhite-500 pt-2 pb-1 rounded-xl active:bg-pokeWhite-500/80 border-4 border-pokeYellow w-36"
@@ -154,6 +153,6 @@ export default function GameBoard({
           </View>
         )}
       </View>
-    </View>
+    </>
   );
 }
