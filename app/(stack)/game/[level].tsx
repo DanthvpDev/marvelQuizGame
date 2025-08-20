@@ -1,14 +1,17 @@
 import GameBoard from "@/components/GameBoard";
+import ResultsModal from "@/components/ResultsModal";
+import { useAuthContext } from "@/Context/AuthContext";
 import { useLocalSearchParams } from "expo-router";
 import React, { useState } from "react";
 import { View } from "react-native";
 
 export default function Game() {
-
-  //? Points counter
-  const [points, setPoints] = useState<number>(0);
   //? Gets the level from navigation
   const { level } = useLocalSearchParams();
+  const {user} = useAuthContext();
+  const [showModal, setShowModal] = useState<boolean>(false);
+  //? Points counter
+  const [points, setPoints] = useState<number>(0);
   
 
   return (
@@ -17,7 +20,12 @@ export default function Game() {
         onPress={setPoints} 
         points={points}
         level={Number(level)}
-        haveButtons={Number(level) === 1}/>
+        haveButtons={Number(level) === 1}
+        setShowModal={setShowModal}
+        />
+        {
+          showModal && <ResultsModal setShowModal={setShowModal} points={points} user={user?.username} />
+        }
     </View>
   );
 }

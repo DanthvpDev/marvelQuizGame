@@ -13,5 +13,5 @@ export default interface ApiRequestHook {
     isLoadingPokemons: boolean;
     pokemonsGotten: boolean;
     pokemonsError: Error|null;
-
+    pokemonsStatus: "error" | "success" | "pending";
 }

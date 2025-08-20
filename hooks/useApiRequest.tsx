@@ -27,7 +27,8 @@ export default function useApiRequest(page: number): ApiRequestHook {
     data: pokemons,
     isLoading: isLoadingPokemons,
     error: pokemonsError,
-    isFetched: pokemonsGotten,
+    isFetching: pokemonsGotten,
+    status: pokemonsStatus,
   } = useQuery({
     queryKey: ["pokemons", page],
     queryFn: () => {
@@ -118,6 +119,7 @@ export default function useApiRequest(page: number): ApiRequestHook {
     pokemons,
     isLoadingPokemons,
     pokemonsError,
-    pokemonsGotten
+    pokemonsGotten,
+    pokemonsStatus
   };
 }

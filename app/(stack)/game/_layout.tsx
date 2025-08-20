@@ -12,10 +12,10 @@ export default function GameLayout() {
             headerTintColor: "#EAEAEA"
     }}
     >
-        <Stack.Screen name='index' options={{headerShown:false, title:"Home"}}/>
-        <Stack.Screen name='gameConfig' options={{title:""}}/>
+        <Stack.Screen name='index' options={{headerShown:false}}/>
+        <Stack.Screen name='gameConfig' options={{title:"Game Configuration"}}/>
         <Stack.Screen name='characters' options={{title:""}}/>
-        <Stack.Screen name='[level]' options={{headerShown:false, title:"Home"}}/>
+        <Stack.Screen name='[level]' options={{headerShown:false}}/>
     </Stack>
   )
 }

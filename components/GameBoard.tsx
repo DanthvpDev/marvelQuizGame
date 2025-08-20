@@ -1,7 +1,7 @@
 import { useAuthContext } from "@/Context/AuthContext";
 import useGame from "@/hooks/useGame";
 import { router } from "expo-router";
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import { Image, Pressable, Text, TextInput, View } from "react-native";
 import CharizardError from "../assets/pokemonContent/charizardError.png";
 import ResultsGameBoard from "./ResultsGameBoard";
@@ -11,6 +11,11 @@ interface BoardProps {
   onPress: React.Dispatch<React.SetStateAction<number>>;
   points: number;
   level: number;
+  setShowModal: React.Dispatch<React.SetStateAction<boolean>>;
+}
+
+interface Highlights {
+  points: number;
 }
 
 export default function GameBoard({
@@ -18,49 +23,40 @@ export default function GameBoard({
   onPress,
   points,
   level,
+  setShowModal
 }: BoardProps) {
-  const [optionSelected, setOptionSelected] = useState<string>();
-  const [inputValue, setInputValue] = useState<string>("");
-  const [inputValueError, setInputValueError] = useState<string|null>(null);
-  const [error, setError] = useState<string | null>(null);
-  const { pokemonsForGame, startGame, answer, isAnswerCorrect, pokemons } = useGame();
+  const [userOption, setUserOption] = useState<string>();
+
+  //? Hook that gets pokemons
+  const { pokemonsForGame, startGame, answer, isAnswerCorrect, pokemonsError } =
+    useGame();
   //? Gets the user
   const { user } = useAuthContext();
 
   const handleRestart = () => {
-    let res: boolean = startGame();
-    if (res) {
-      setError(null);
-      onPress(0);
-    } else
-      setError("Looks like Charizard just sneezed. 🤧 \n Your request got caught in a temporary server flame-out.\n Try again after the smoke clears. 🔥");
+    startGame();
+    onPress(0);
   };
 
-  useEffect(() => {
-    handleRestart();
-  }, [pokemons]);
-
-  useEffect(() => {
-
-    function handleAnswer() {
-      //* Error handlign for input
-      if(level === 2) {
-        if(inputValue.length < 1) return setInputValueError("Enter the pokemon name");
-        
-        setInputValueError(null);
-      }
-
-      //* Verifies if the correct answer and the option selected are the same
-      if ((answer && optionSelected) && isAnswerCorrect(answer, optionSelected)) {
-        onPress((p) => p += 1);
-        startGame();
-      } else onPress(0);
+  function handleAnswer(userAnswer?: string) {
+    if (haveButtons) setUserOption(userAnswer);
+    //* Error handlign for input
+    //* Verifies if the correct answer and the option selected are the same
+    if (answer && userOption && isAnswerCorrect(answer, userOption)) {
+      onPress((p) => (p += 1));
+    } 
+    else {
+      const gameHighlights = {
+        points,
+      } as Highlights;
+      
+      setShowModal(true);
+      onPress(0);
     }
-    
-    handleAnswer();
-  }, [optionSelected]);
+    startGame();
+  }
 
-  if(error) 
+  if (pokemonsError)
     return (
       <View>
         <View className="h-64">
@@ -69,9 +65,8 @@ export default function GameBoard({
             className="h-full aspect-square rounded-xl self-center shadow-xl shadow-pokeRed"
           />
         </View>
-        <Text className="py-5 mt-5 bg-pokeRed shadow-lg shadow-pokeRed-300 text-center font-bold text-xl text-pokeWhite-500 rounded-xl">{error}</Text>
         <Pressable
-          onPress={() => router.push("/game/")}
+          onPress={() => router.push("/(stack)/game/[results]")}
           className=" mt-5 self-center z-10 bg-pokeBlue dark:bg-pokeWhite-500 pt-2 pb-1 rounded-xl active:bg-pokeWhite-500/80 border-4 border-pokeYellow w-36"
         >
           <Text className="font-PokeSolid text-3xl text-pokeWhite-500 dark:text-pokeBlue text-center shadow-sm shadow-pokeYellow">
@@ -79,7 +74,7 @@ export default function GameBoard({
           </Text>
         </Pressable>
       </View>
-    )
+    );
 
   return (
     <>
@@ -118,7 +113,7 @@ export default function GameBoard({
             {pokemonsForGame &&
               pokemonsForGame.map((p) => (
                 <Pressable
-                  onPress={() => setOptionSelected(p.name)}
+                  onPress={() => handleAnswer(p.name)}
                   key={p.id}
                   className="z-10 bg-pokeBlue dark:bg-pokeYellow-800 py-3 justify-center rounded-xl active:bg-pokeBlue-800/50 border-4 border-pokeBlue-800 dark:border-pokeWhite w-2/5"
                 >
@@ -131,18 +126,15 @@ export default function GameBoard({
         ) : (
           <View className="w-8/12 flex flex-col items-center gap-6">
             <TextInput
-              onChangeText ={(text)=> setInputValue(text)}
+              onChangeText={(text) => setUserOption(text)}
               placeholder="Enter pokemon name"
               returnKeyLabel="done"
               returnKeyType="done"
               className="placeholder:text-pokeWhite/70 w-full pt-1 pb-2 bg-pokeBlue/65 dark:bg-pokeYellow-700/65 rounded-lg text-xl pl-2 text-pokeWhite border-2 border-pokeYellow"
             />
-            {
-              inputValueError && <Text className="w-full py-5 bg-pokeRed shadow-lg shadow-pokeRed-300 text-center font-bold text-xl text-pokeWhite-500 rounded-xl">{inputValueError}</Text>
-            }
             <Pressable
               onPress={() => {
-                setOptionSelected(inputValue);
+                handleAnswer(userOption);
               }}
               className="z-10 bg-pokeBlue dark:bg-pokeYellow-700 pt-3 pb-2 rounded-xl active:bg-pokeBlue-800/50 border-4 border-pokeBlue-800 dark:border-pokeWhite w-40"
             >

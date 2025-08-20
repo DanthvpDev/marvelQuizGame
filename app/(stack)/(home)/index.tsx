@@ -2,22 +2,21 @@
 import Header from "@/components/Header";
 import Loader from "@/components/Loader";
 import useApiRequest from "@/hooks/useApiRequest";
-import { useQuery } from "@tanstack/react-query";
 import { router, useNavigation } from "expo-router";
 import React, { useEffect } from "react";
 import { Pressable, Text, View } from "react-native";
 
 export default function index() {
-  const { gettingAllResults } = useApiRequest();
+  const { apiDataStatus } = useApiRequest(0);
 
-  const {
-    error: apiDataError,
-    status: apiDataStatus,
-    isFetched,
-  } = useQuery({
-    queryKey: ["apiData"],
-    queryFn: gettingAllResults,
-  });
+  // const {
+  //   error: apiDataError,
+  //   status: apiDataStatus,
+  //   isFetched,
+  // } = useQuery({
+  //   queryKey: ["apiData"],
+  //   queryFn: gettingAllResults,
+  // });
 
   //? Navigation
   const { setOptions } = useNavigation();
