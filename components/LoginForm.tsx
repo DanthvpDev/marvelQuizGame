@@ -26,8 +26,8 @@ export default function LoginForm() {
   }
 
   return (
-    <View className="flex flex-col justify-center items-center gap-3">
-      <Text className="text-3xl text-center text-marvelousWhite font-BebasNeue text-pokeBlue-300 dark:text-pokeYellow">
+    <View className="flex flex-col justify-center items-center gap-3 sm:gap-1">
+      <Text className="sm:text-4xl text-3xl text-center text-marvelousWhite font-BebasNeue text-pokeBlue-300 dark:text-pokeYellow">
         Login
       </Text>
       {error && (<Text className="text-lg bg-pokeRed-300 px-2 text-center text-pokeWhite rounded-xl w-10/12 font-Nunito">{error}</Text>)}
@@ -49,7 +49,7 @@ export default function LoginForm() {
                 />
             )}
           />
-          {errors.password && (<Text className="text-lg bg-pokeRed-300 px-2 text-center text-pokeWhite rounded-lg w-10/12 self-center mt-2">{errors.email?.message}</Text>)}
+          {errors.email && (<Text className="text-lg bg-pokeRed-300 px-2 text-center text-pokeWhite rounded-lg w-10/12 self-center mt-2">{errors.email?.message}</Text>)}
         </View>
         <View>
           <Text className="text-pokeBlue-800 dark:text-pokeWhite font-BebasNeue text-2xl">Password</Text>

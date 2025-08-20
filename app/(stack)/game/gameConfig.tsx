@@ -23,11 +23,12 @@ export default function GameConfig() {
               })
   }
 
+
   return (
-    <View className="dark:bg-pokeBlue bg-pokeWhite h-full py-10">
+    <View className="dark:bg-pokeBlue bg-pokeWhite h-full py-10 sm:py-4">
       <Header mainText="Configuration" subText="" />
-      <View className="border-2 border-pokeWhite rounded-xl w-11/12 self-center mt-5 py-4 px-3">
-        <View className="py-5">
+      <View className="sm:mt-0 border-2 border-pokeWhite rounded-xl w-11/12 self-center mt-5 py-4 px-3">
+        <View className="py-5 sm:py-0">
           <Text className="text-xl dark:text-pokeWhite-500 text-pokeBlue font-bold">
             Select your level
           </Text>

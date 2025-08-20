@@ -38,7 +38,7 @@ export default function Charachters() {
         {pokemons && pokemons.map((p) => <PokeCard pokemon={p} key={p.id} />)}
       </ScrollView>
 
-      <View className="py-2 h-16 relative bg-pokeBlue-300">
+      <View className=" py-2 h-16 relative bg-pokeBlue-300">
         <View className="absolute flex flex-row items-center justify-center w-full gap-5">
           <Pressable
             className="bg-pokeBlue-800 px-6 py-2 top-2 rounded-lg"

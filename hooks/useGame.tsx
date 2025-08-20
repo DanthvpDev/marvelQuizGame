@@ -1,102 +1,98 @@
-/* eslint-disable react-hooks/exhaustive-deps */
+ 
 import { Pokemon } from "@/interfaces/pokeApi.interface";
 import { useEffect, useState } from "react";
 import useApiRequest from "./useApiRequest";
 
+
+/*
+ ? pokemonsForGame: 4 pokemons selected to use them on the board
+ ? answer: pokemon of the list selected
+ ? pokemonsError: it would have any error explanation
+ ? startGame: method that gets a random page of apiData
+ ? isAnswerCorrect: method that checks if the user option is the same as the answer
+*/ 
+
 interface Returns {
   pokemonsForGame: Pokemon[];
   answer?: Pokemon;
-  isAnswerCorrect: (correctAnswer: Pokemon, optionSelected: string) => boolean;
-  pokemons?: Pokemon[];
   pokemonsError: string|null;
+  pokemonsGotten: boolean;
   startGame: ()=>void;
+  isAnswerCorrect: (correctAnswer: Pokemon, optionSelected: string) => boolean;
 }
 
 export default function useGame(): Returns {
-  //Manages pagination of the pokemons ApiRequest
   const [page, setPage] = useState<number>(0);
-  // List of pokemons are is going to be sent to the component
   const [pokemonsForGame, setPokemonsForGame] = useState<Pokemon[]>([]);
-  // Correct answer
   const [answer, setAnswer] = useState<Pokemon>();
-  // Error message
   const [pokemonsForGameError, setPokemonsForGameError] = useState<string | null>(null);
-  // Context of requests
-  const { pokemons, apiData, pokemonsStatus, pokemonsGotten } = useApiRequest(page);
-  
 
+  // Api Context
+  const { apiData, pokemons, pokemonsStatus, pokemonsGotten } = useApiRequest(page);
 
-  // This returns a random number for the pagination
-  function getPokemonsPageRandom(responsesLength: number): number {
-    const page = Math.floor(Math.random() * responsesLength);
-    return page;
+  // Gets a random page number
+  function getPokemonsPageRandom(maxPages: number): number {
+    return Math.floor(Math.random() * maxPages);
   }
 
-  // This gets pokemons info randomly
+  // Gets the pokmemons randomly a list of 4 pokemons
   function gettingPokemonsRandomly(data: Pokemon[], amountOptions: number) {
     let i = 0;
     let response: Pokemon[] = [];
-    if (!data || !apiData) return [];
+    const filteredData = data.filter(e => e.image.front_default); // Filters the pokemons that have images (some pokemons doesn't have any img)
 
-    setPage(getPokemonsPageRandom(data.length));
-
-    while (i < amountOptions) {
-      let random = Math.floor(Math.random() * data.length);
-      let filteredData = data.filter(e=> e.image.front_default);
+    while (i < amountOptions && filteredData.length > 0) {
+      let random = Math.floor(Math.random() * filteredData.length);
       let selected = filteredData.at(random);
-      if (selected) {
-        if (!response.find((e) => e.id === selected.id)) {
-          response.push(selected);
-          i++;
-        }
+      if (selected && !response.find((e) => e.id === selected.id)) {
+        response.push(selected);
+        i++;
       }
     }
-    console.log(" ");
     return response;
   }
 
-  // This sets the game
+  // Starts the game by getting a new page that triggers the useEffect
   function startGame() {
-    if (pokemonsStatus === "error")
-      return setPokemonsForGameError(
-    "Looks like Charizard just sneezed. 🤧 \n Your request got caught in a temporary server flame-out.\n Try again after the smoke clears. 🔥"
-  );
-  if(pokemons && pokemons?.length > 0){
-    const options = 4;
-    let selectedPokemons = gettingPokemonsRandomly(pokemons, options);
-    let random = Math.floor(Math.random() * selectedPokemons.length);
-    let correctAnswer = selectedPokemons.at(random);
-    setPokemonsForGame(selectedPokemons);
-    setAnswer(correctAnswer);
-    setPokemonsForGameError(null);
+    const newPage = apiData && getPokemonsPageRandom(apiData?.length);
+    if(!newPage) return  setPokemonsForGameError("Oops! It looks like Charizard sneezed and burned the data. Please try again, Trainer.");
+    newPage && setPage(newPage);
   }
-  console.log(pokemons?.length);
-  console.log(pokemonsGotten);
-}
-
-  // This checks the user answer is correct
-  function isAnswerCorrect(
-    correctAnswer: Pokemon,
-    optionSelected: string
-  ): boolean {
+  
+  // Checks if the answer is correct
+  function isAnswerCorrect(correctAnswer: Pokemon, optionSelected: string): boolean {
     return correctAnswer.name === optionSelected;
   }
 
-  
-  
 
   useEffect(() => {
+    if (pokemonsStatus === "error") {
+      setPokemonsForGameError("Oops! It looks like Charizard sneezed and burned the data 🔥. Please try again, Trainer.");
+      return;
+    }
 
-    startGame(); 
+    if (pokemons && pokemons.length > 0) {
+      const options = 4;
+      const selectedPokemons = gettingPokemonsRandomly(pokemons, options);
+      const correctAnswer =
+        selectedPokemons[Math.floor(Math.random() * selectedPokemons.length)];
 
-  }, [])
+      setPokemonsForGame(selectedPokemons);
+      setAnswer(correctAnswer);
+      setPokemonsForGameError(null);
+    }
+  }, [pokemons, pokemonsStatus]);
+
   
 
   return {
     pokemonsForGame,
     answer,
     isAnswerCorrect,
-    pokemonsError:pokemonsForGameError,
-    startGame
+    pokemonsError: pokemonsForGameError,
+    startGame,
+    pokemonsGotten
   };
 }
+
+

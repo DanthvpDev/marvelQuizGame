@@ -14,10 +14,6 @@ interface BoardProps {
   setShowModal: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
-interface Highlights {
-  points: number;
-}
-
 export default function GameBoard({
   haveButtons,
   onPress,
@@ -38,23 +34,22 @@ export default function GameBoard({
     onPress(0);
   };
 
-  function handleAnswer(userAnswer?: string) {
-    if (haveButtons) setUserOption(userAnswer);
+  function handleAnswer(userAnswer?:string) {
     //* Error handlign for input
     //* Verifies if the correct answer and the option selected are the same
-    if (answer && userOption && isAnswerCorrect(answer, userOption)) {
+    console.log(" ");
+    console.log(answer?.name + " " + userAnswer);
+    if ((answer && userAnswer) && isAnswerCorrect(answer, userAnswer)) {
       onPress((p) => (p += 1));
     } 
     else {
-      const gameHighlights = {
-        points,
-      } as Highlights;
-      
       setShowModal(true);
       onPress(0);
     }
     startGame();
   }
+
+
 
   if (pokemonsError)
     return (
@@ -101,19 +96,21 @@ export default function GameBoard({
         points={points}
         level={level}
       />
-      <View className="border-2 border-pokeYellow-700 flex flex-col items-center justify-evenly py-3 rounded-b-xl">
+      <View className="sm:py-4 sm:flex-row border-2 border-pokeYellow-700 flex flex-col items-center justify-evenly md:py-3 rounded-b-xl">
         {answer && (
           <Image
             src={answer?.image.front_default}
-            className="h-3/6 aspect-square border-2 border-pokeYellow-700 dark:bg-pokeWhite bg-pokeBlue/65 rounded-xl"
+            className="sm:w-3/12 md:w-0 h-3/6 aspect-square border-2 border-pokeYellow-700 dark:bg-pokeWhite bg-pokeBlue/65 rounded-xl"
           />
         )}
         {haveButtons ? (
-          <View className="w-11/12 flex flex-row flex-wrap justify-around gap-6">
+          <View className="sm:gap-5 sm:w-6/12 md:w-11/12 flex flex-row flex-wrap justify-around gap-6">
             {pokemonsForGame &&
               pokemonsForGame.map((p) => (
                 <Pressable
-                  onPress={() => handleAnswer(p.name)}
+                  onPress={async () => {
+                    handleAnswer(p.name)
+                  }}
                   key={p.id}
                   className="z-10 bg-pokeBlue dark:bg-pokeYellow-800 py-3 justify-center rounded-xl active:bg-pokeBlue-800/50 border-4 border-pokeBlue-800 dark:border-pokeWhite w-2/5"
                 >
@@ -133,9 +130,7 @@ export default function GameBoard({
               className="placeholder:text-pokeWhite/70 w-full pt-1 pb-2 bg-pokeBlue/65 dark:bg-pokeYellow-700/65 rounded-lg text-xl pl-2 text-pokeWhite border-2 border-pokeYellow"
             />
             <Pressable
-              onPress={() => {
-                handleAnswer(userOption);
-              }}
+              onPress={()=> handleAnswer(userOption)}
               className="z-10 bg-pokeBlue dark:bg-pokeYellow-700 pt-3 pb-2 rounded-xl active:bg-pokeBlue-800/50 border-4 border-pokeBlue-800 dark:border-pokeWhite w-40"
             >
               <Text className="font-PokeSolid text-3xl text-pokeWhite-500 text-center shadow-sm shadow-pokeBlue-800">

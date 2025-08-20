@@ -8,7 +8,7 @@ export default function GameHome() {
 
   return (
     <View className="dark:bg-pokeBlue bg-pokeWhite h-full flex justify-center items-center gap-10">
-      <View className="flex gap-3 px-6">
+      <View className="flex gap-3 sm:gap-0 px-6">
         <Header showLogo={true} mainText="PokeTrivia" subText="Challenge your knowledge"  />
         <View className="flex flex-row justify-around items-center gap-5 mt-14">
           <Pressable
