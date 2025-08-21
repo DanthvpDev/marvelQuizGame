@@ -1,11 +1,11 @@
 {
   "expo": {
-    "name": "marvelQuizGame",
-    "slug": "marvelQuizGame",
+    "name": "pokemonQuizGame",
+    "slug": "pokemonQuizGame",
     "version": "1.0.0",
     "orientation": "default",
     "icon": "./assets/images/icon.png",
-    "scheme": "marvelquizgame",
+    "scheme": "pokemonquizgame",
     "userInterfaceStyle": "automatic",
     "newArchEnabled": true,
     "ios": {

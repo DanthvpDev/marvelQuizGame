@@ -10,7 +10,7 @@ interface PokeCardProps {
 
 export default function PokeCard({ pokemon }: PokeCardProps) {
   return (
-    <View className="sm:w-8/12 rounded-xl w-10/12 relative border-2 border-pokeBlue-800 self-center mb-5 overflow-hidden shadow-xl shadow-pokeBlue">
+    <View className="my-5 sm:w-8/12 rounded-xl w-10/12 relative border-2 border-pokeBlue-800 self-center overflow-hidden shadow-xl shadow-pokeBlue">
       {/* <Image className="absolute w-full h-full" source={pokeball} /> */}
       <View className="sm:flex-row flex flex-col bg-pokeRed-300">
         <View className="items-center h-56 w-full self-center sm:w-3/6">

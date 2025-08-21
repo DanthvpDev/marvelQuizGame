@@ -30,11 +30,11 @@ export default function Charachters() {
         )
       }
 
-      <Header
-        mainText="Pokemons"
-        subText="Find all the info about your favorite pokemons"
-      />
-      <ScrollView className="h-96 py-5 flex flex-col">
+      <ScrollView className="h-96 py-0 flex flex-col">
+        <Header
+          mainText="Pokemons"
+          subText="Find all the info about your favorite pokemons"
+        />
         {pokemons && pokemons.map((p) => <PokeCard pokemon={p} key={p.id} />)}
       </ScrollView>
 
