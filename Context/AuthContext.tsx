@@ -51,7 +51,7 @@ export default function AuthContextProvider({ children }: PropsWithChildren) {
   };
 
   useEffect(() => {
-    if(!authState) router.navigate("/(stack)/home");
+    if(!authState) router.navigate("/(stack)/(home)");
   }, [authState])
 
   return (

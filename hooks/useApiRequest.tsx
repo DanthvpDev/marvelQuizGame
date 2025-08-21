@@ -11,7 +11,7 @@ import { useQuery } from "@tanstack/react-query";
 import axios from "axios";
 
 export default function useApiRequest(page: number): ApiRequestHook {
-  // Contexto de todas las llamadas principales
+  // Tanstack hook for https://pokeapi.co/api/v2/pokemon
   const {
     data: apiData,
     error: apiDataError,
@@ -22,7 +22,7 @@ export default function useApiRequest(page: number): ApiRequestHook {
     queryFn: gettingAllResults,
   });
 
-  //Contexto de los pokemones
+  //Tanstack hook for responses inside apiData
   const {
     data: pokemons,
     isLoading: isLoadingPokemons,
