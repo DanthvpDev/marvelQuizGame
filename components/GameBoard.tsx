@@ -100,11 +100,11 @@ export default function GameBoard({
         {answer && (
           <Image
             src={answer?.image.front_default}
-            className="sm:w-3/12 md:w-0 h-3/6 aspect-square border-2 border-pokeYellow-700 dark:bg-pokeWhite bg-pokeBlue/65 rounded-xl"
+            className="sm:w-3/12 md:w-2/12 h-3/6 aspect-square border-2 border-pokeYellow-700 dark:bg-pokeWhite bg-pokeBlue/65 rounded-xl"
           />
         )}
         {haveButtons ? (
-          <View className="sm:gap-5 sm:w-6/12 md:w-11/12 flex flex-row flex-wrap justify-around gap-6">
+          <View className="sm:gap-5 sm:w-6/12 w-11/12 flex flex-row flex-wrap justify-around gap-6">
             {pokemonsForGame &&
               pokemonsForGame.map((p) => (
                 <Pressable
